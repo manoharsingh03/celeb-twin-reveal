@@ -1,7 +1,7 @@
 
 import { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-import { Upload, Camera, Image as ImageIcon } from "lucide-react";
+import { Upload, Camera, Image as ImageIcon, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface PhotoUploadProps {
@@ -10,10 +10,24 @@ interface PhotoUploadProps {
 
 const PhotoUpload = ({ onImageUpload }: PhotoUploadProps) => {
   const [preview, setPreview] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
     if (file) {
+      // Validate file size (max 10MB)
+      if (file.size > 10 * 1024 * 1024) {
+        setError('File size must be less than 10MB');
+        return;
+      }
+
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        setError('Please upload a valid image file');
+        return;
+      }
+
+      setError(null);
       const reader = new FileReader();
       reader.onload = () => {
         const result = reader.result as string;
@@ -29,7 +43,8 @@ const PhotoUpload = ({ onImageUpload }: PhotoUploadProps) => {
     accept: {
       'image/*': ['.jpeg', '.jpg', '.png', '.webp']
     },
-    multiple: false
+    multiple: false,
+    maxSize: 10 * 1024 * 1024 // 10MB
   });
 
   return (
@@ -51,7 +66,10 @@ const PhotoUpload = ({ onImageUpload }: PhotoUploadProps) => {
               alt="Preview" 
               className="w-32 h-32 object-cover rounded-full mx-auto border-4 border-cyan-300 shadow-2xl"
             />
-            <p className="text-white font-medium">Perfect! Click analyze to find your match</p>
+            <p className="text-white font-medium">Perfect! Your photo is ready for analysis</p>
+            <div className="text-xs text-white/60">
+              Make sure your face is clearly visible for best results
+            </div>
           </div>
         ) : (
           <div className="space-y-4">
@@ -67,7 +85,7 @@ const PhotoUpload = ({ onImageUpload }: PhotoUploadProps) => {
                 {isDragActive ? "Drop your photo here!" : "Upload your photo"}
               </h3>
               <p className="text-white/70 text-sm mb-4">
-                Drag & drop or click to select • JPG, PNG, WEBP
+                Drag & drop or click to select • JPG, PNG, WEBP • Max 10MB
               </p>
             </div>
 
@@ -85,9 +103,21 @@ const PhotoUpload = ({ onImageUpload }: PhotoUploadProps) => {
         )}
       </div>
 
+      {error && (
+        <div className="mt-4 bg-red-500/20 backdrop-blur-sm rounded-xl p-3 border border-red-500/30">
+          <div className="flex items-center gap-2 text-red-200">
+            <AlertTriangle className="w-4 h-4" />
+            <span className="text-sm">{error}</span>
+          </div>
+        </div>
+      )}
+
       <div className="mt-4 text-center">
         <p className="text-white/60 text-xs">
-          Your photo is processed locally and never stored on our servers
+          Your photo is processed locally using AI and never stored on our servers
+        </p>
+        <p className="text-white/50 text-xs mt-1">
+          For best results, use a clear front-facing photo with good lighting
         </p>
       </div>
     </div>

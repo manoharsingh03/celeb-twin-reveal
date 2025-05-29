@@ -1,0 +1,3 @@
+
+# This folder will contain face-api.js model files
+# Models will be loaded from CDN for better performance

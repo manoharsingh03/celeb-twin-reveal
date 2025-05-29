@@ -2,28 +2,44 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import PhotoUpload from "../components/PhotoUpload";
-import CelebrityMatch from "../components/CelebrityMatch";
+import FaceMatchingEngine from "../components/FaceMatchingEngine";
+import EnhancedCelebrityMatch from "../components/EnhancedCelebrityMatch";
 import UserProfile from "../components/UserProfile";
 import { Button } from "@/components/ui/button";
-import { Sparkles, Camera, Share2, LogIn } from "lucide-react";
+import { Sparkles, Camera, Share2, LogIn, Brain, Zap } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 
 const Index = () => {
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
-  const [showMatch, setShowMatch] = useState(false);
+  const [showAnalysis, setShowAnalysis] = useState(false);
+  const [matchResult, setMatchResult] = useState<{ celebrity: any; matchScore: number } | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const { user, loading } = useAuth();
 
   const handleImageUpload = (imageUrl: string) => {
     setUploadedImage(imageUrl);
-    // Simulate processing time
-    setTimeout(() => {
-      setShowMatch(true);
-    }, 2000);
+    setShowAnalysis(true);
+    setMatchResult(null);
+    setError(null);
+  };
+
+  const handleMatchFound = (celebrity: any, matchScore: number) => {
+    setMatchResult({ celebrity, matchScore });
+    setShowAnalysis(false);
+    setError(null);
+  };
+
+  const handleError = (errorMessage: string) => {
+    setError(errorMessage);
+    setShowAnalysis(false);
+    setMatchResult(null);
   };
 
   const resetApp = () => {
     setUploadedImage(null);
-    setShowMatch(false);
+    setShowAnalysis(false);
+    setMatchResult(null);
+    setError(null);
   };
 
   if (loading) {
@@ -67,14 +83,15 @@ const Index = () => {
         {/* Main Title */}
         <div className="text-center mb-12">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <Sparkles className="text-yellow-300 w-8 h-8 animate-pulse" />
+            <Brain className="text-cyan-300 w-8 h-8 animate-pulse" />
             <h1 className="text-4xl md:text-6xl font-bold text-white bg-clip-text bg-gradient-to-r from-white to-cyan-200">
-              CelebTwin
+              CelebTwin AI
             </h1>
-            <Sparkles className="text-yellow-300 w-8 h-8 animate-pulse" />
+            <Brain className="text-cyan-300 w-8 h-8 animate-pulse" />
           </div>
           <p className="text-xl text-white/90 max-w-2xl mx-auto">
-            Discover your celebrity doppelganger! Upload your photo and find out which star you look like most.
+            Discover your celebrity doppelganger using advanced AI face recognition! 
+            Upload your photo and find out which star you look like most.
           </p>
           {!user && (
             <p className="text-white/70 mt-4">
@@ -93,13 +110,13 @@ const Index = () => {
               <div className="grid md:grid-cols-3 gap-6 mt-12">
                 <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center hover:bg-white/15 transition-all duration-300 hover:scale-105">
                   <Camera className="w-12 h-12 text-cyan-300 mx-auto mb-4" />
-                  <h3 className="text-white font-semibold mb-2">Upload & Match</h3>
-                  <p className="text-white/80 text-sm">Upload your photo and our AI will find your celebrity twin instantly</p>
+                  <h3 className="text-white font-semibold mb-2">AI Face Analysis</h3>
+                  <p className="text-white/80 text-sm">Advanced facial recognition technology analyzes your features instantly</p>
                 </div>
                 <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center hover:bg-white/15 transition-all duration-300 hover:scale-105">
-                  <Sparkles className="w-12 h-12 text-purple-300 mx-auto mb-4" />
-                  <h3 className="text-white font-semibold mb-2">Get Your Score</h3>
-                  <p className="text-white/80 text-sm">See your match percentage and discover your celebrity connection</p>
+                  <Brain className="w-12 h-12 text-purple-300 mx-auto mb-4" />
+                  <h3 className="text-white font-semibold mb-2">Smart Matching</h3>
+                  <p className="text-white/80 text-sm">Our AI compares your face with hundreds of celebrity features</p>
                 </div>
                 <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center hover:bg-white/15 transition-all duration-300 hover:scale-105">
                   <Share2 className="w-12 h-12 text-green-300 mx-auto mb-4" />
@@ -110,19 +127,41 @@ const Index = () => {
             </div>
           )}
 
-          {uploadedImage && !showMatch && (
-            <div className="text-center">
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 mb-6">
-                <div className="animate-spin w-16 h-16 border-4 border-white/30 border-t-cyan-400 rounded-full mx-auto mb-4"></div>
-                <h3 className="text-2xl font-bold text-white mb-2">Finding your celebrity twin...</h3>
-                <p className="text-white/80">Our AI is analyzing your features</p>
+          {uploadedImage && showAnalysis && (
+            <FaceMatchingEngine
+              userImage={uploadedImage}
+              onMatchFound={handleMatchFound}
+              onError={handleError}
+            />
+          )}
+
+          {error && (
+            <div className="text-center bg-red-500/20 backdrop-blur-sm rounded-2xl p-6 border border-red-500/30 mb-6">
+              <div className="text-red-200 mb-4">
+                <Zap className="w-12 h-12 mx-auto mb-2" />
+                <h3 className="text-xl font-bold mb-2">Oops!</h3>
+                <p>{error}</p>
               </div>
+              <Button 
+                onClick={resetApp}
+                className="bg-white/20 hover:bg-white/30 text-white border-white/30 border backdrop-blur-sm"
+              >
+                Try Another Photo
+              </Button>
             </div>
           )}
 
-          {showMatch && uploadedImage && (
+          {matchResult && uploadedImage && (
             <div className="space-y-6">
-              <CelebrityMatch userImage={uploadedImage} />
+              <EnhancedCelebrityMatch 
+                userImage={uploadedImage}
+                celebrity={{
+                  name: matchResult.celebrity.name,
+                  image: matchResult.celebrity.imageUrl,
+                  description: matchResult.celebrity.description
+                }}
+                matchScore={matchResult.matchScore}
+              />
               <div className="text-center">
                 <Button 
                   onClick={resetApp}
@@ -137,7 +176,7 @@ const Index = () => {
 
         {/* Footer */}
         <div className="text-center mt-16 text-white/60">
-          <p>Made with ❤️ for fun • Share with friends!</p>
+          <p>Powered by AI Face Recognition • Made with ❤️ for fun • Share with friends!</p>
         </div>
       </div>
     </div>
