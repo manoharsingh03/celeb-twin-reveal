@@ -9,6 +9,36 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      match_results: {
+        Row: {
+          celebrity_name: string
+          created_at: string
+          id: string
+          match_score: number
+          result_image_url: string | null
+          user_id: string
+          user_image_url: string | null
+        }
+        Insert: {
+          celebrity_name: string
+          created_at?: string
+          id?: string
+          match_score: number
+          result_image_url?: string | null
+          user_id: string
+          user_image_url?: string | null
+        }
+        Update: {
+          celebrity_name?: string
+          created_at?: string
+          id?: string
+          match_score?: number
+          result_image_url?: string | null
+          user_id?: string
+          user_image_url?: string | null
+        }
+        Relationships: []
+      }
       meme_projects: {
         Row: {
           created_at: string
@@ -43,7 +73,9 @@ export type Database = {
           email: string | null
           full_name: string | null
           id: string
+          match_count: number | null
           updated_at: string
+          username: string | null
         }
         Insert: {
           avatar_url?: string | null
@@ -51,7 +83,9 @@ export type Database = {
           email?: string | null
           full_name?: string | null
           id: string
+          match_count?: number | null
           updated_at?: string
+          username?: string | null
         }
         Update: {
           avatar_url?: string | null
@@ -59,7 +93,9 @@ export type Database = {
           email?: string | null
           full_name?: string | null
           id?: string
+          match_count?: number | null
           updated_at?: string
+          username?: string | null
         }
         Relationships: []
       }

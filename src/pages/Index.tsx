@@ -1,13 +1,17 @@
 
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import PhotoUpload from "../components/PhotoUpload";
 import CelebrityMatch from "../components/CelebrityMatch";
+import UserProfile from "../components/UserProfile";
 import { Button } from "@/components/ui/button";
-import { Sparkles, Camera, Share2 } from "lucide-react";
+import { Sparkles, Camera, Share2, LogIn } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Index = () => {
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [showMatch, setShowMatch] = useState(false);
+  const { user, loading } = useAuth();
 
   const handleImageUpload = (imageUrl: string) => {
     setUploadedImage(imageUrl);
@@ -22,6 +26,14 @@ const Index = () => {
     setShowMatch(false);
   };
 
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-600 via-purple-600 to-cyan-500 flex items-center justify-center">
+        <div className="animate-spin w-16 h-16 border-4 border-white/30 border-t-cyan-400 rounded-full"></div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-600 via-purple-600 to-cyan-500 relative overflow-hidden">
       {/* Animated background elements */}
@@ -34,7 +46,25 @@ const Index = () => {
       </div>
 
       <div className="relative z-10 container mx-auto px-4 py-8">
-        {/* Header */}
+        {/* Header with Auth */}
+        <div className="flex justify-between items-center mb-8">
+          <div className="flex items-center gap-2">
+            <Sparkles className="text-yellow-300 w-6 h-6" />
+            <h1 className="text-2xl font-bold text-white">CelebTwin</h1>
+          </div>
+          {user ? (
+            <UserProfile />
+          ) : (
+            <Link to="/auth">
+              <Button className="bg-white/20 hover:bg-white/30 text-white border-white/30 border backdrop-blur-sm">
+                <LogIn className="w-4 h-4 mr-2" />
+                Sign In
+              </Button>
+            </Link>
+          )}
+        </div>
+
+        {/* Main Title */}
         <div className="text-center mb-12">
           <div className="flex items-center justify-center gap-2 mb-4">
             <Sparkles className="text-yellow-300 w-8 h-8 animate-pulse" />
@@ -46,6 +76,11 @@ const Index = () => {
           <p className="text-xl text-white/90 max-w-2xl mx-auto">
             Discover your celebrity doppelganger! Upload your photo and find out which star you look like most.
           </p>
+          {!user && (
+            <p className="text-white/70 mt-4">
+              Sign in to save your matches and access your history!
+            </p>
+          )}
         </div>
 
         {/* Main Content */}
