@@ -58,7 +58,7 @@ const SocialShare = ({ celebrity, matchScore }: SocialShareProps) => {
           <Button
             key={option.name}
             onClick={() => handleShare(option.url, option.name)}
-            className={`${option.color} text-white p-3 rounded-full hover:scale-110 transition-transform`}
+            className={`${option.color} text-white p-3 rounded-full hover:scale-110 transition-transform shadow-lg`}
             size="sm"
           >
             <option.icon className="w-4 h-4" />
@@ -69,7 +69,7 @@ const SocialShare = ({ celebrity, matchScore }: SocialShareProps) => {
       <Button
         onClick={copyToClipboard}
         variant="outline"
-        className="bg-white/20 hover:bg-white/30 text-white border-white/30 rounded-full px-4"
+        className="bg-white/20 hover:bg-white/30 text-white border-white/30 rounded-full px-4 hover:scale-105 transition-all duration-300"
         size="sm"
       >
         <Share2 className="w-4 h-4 mr-2" />

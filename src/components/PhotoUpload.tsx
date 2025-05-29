@@ -38,8 +38,8 @@ const PhotoUpload = ({ onImageUpload }: PhotoUploadProps) => {
         {...getRootProps()}
         className={`relative border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all duration-300 bg-white/10 backdrop-blur-sm ${
           isDragActive 
-            ? 'border-yellow-300 bg-white/20 scale-105' 
-            : 'border-white/30 hover:border-white/50 hover:bg-white/15'
+            ? 'border-cyan-300 bg-white/20 scale-105' 
+            : 'border-white/30 hover:border-cyan-400 hover:bg-white/15'
         }`}
       >
         <input {...getInputProps()} />
@@ -49,7 +49,7 @@ const PhotoUpload = ({ onImageUpload }: PhotoUploadProps) => {
             <img 
               src={preview} 
               alt="Preview" 
-              className="w-32 h-32 object-cover rounded-full mx-auto border-4 border-white/30"
+              className="w-32 h-32 object-cover rounded-full mx-auto border-4 border-cyan-300 shadow-2xl"
             />
             <p className="text-white font-medium">Perfect! Click analyze to find your match</p>
           </div>
@@ -57,7 +57,7 @@ const PhotoUpload = ({ onImageUpload }: PhotoUploadProps) => {
           <div className="space-y-4">
             <div className="relative">
               <Upload className="w-16 h-16 text-white/70 mx-auto" />
-              <div className="absolute -top-2 -right-2 w-6 h-6 bg-yellow-400 rounded-full flex items-center justify-center">
+              <div className="absolute -top-2 -right-2 w-6 h-6 bg-cyan-400 rounded-full flex items-center justify-center">
                 <Camera className="w-3 h-3 text-black" />
               </div>
             </div>
@@ -75,7 +75,7 @@ const PhotoUpload = ({ onImageUpload }: PhotoUploadProps) => {
               <Button 
                 variant="secondary" 
                 size="sm"
-                className="bg-white/20 hover:bg-white/30 text-white border-none"
+                className="bg-white/20 hover:bg-white/30 text-white border-none hover:scale-105 transition-all duration-300"
               >
                 <ImageIcon className="w-4 h-4 mr-2" />
                 Choose File

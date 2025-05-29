@@ -57,9 +57,9 @@ const CelebrityMatch = ({ userImage }: CelebrityMatchProps) => {
     
     // Background gradient
     const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-    gradient.addColorStop(0, '#8B5CF6');
-    gradient.addColorStop(0.5, '#EC4899');
-    gradient.addColorStop(1, '#FB923C');
+    gradient.addColorStop(0, '#2563EB');
+    gradient.addColorStop(0.5, '#9333EA');
+    gradient.addColorStop(1, '#06B6D4');
     
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -94,7 +94,9 @@ const CelebrityMatch = ({ userImage }: CelebrityMatchProps) => {
           {[...Array(20)].map((_, i) => (
             <div
               key={i}
-              className="absolute w-3 h-3 bg-yellow-400 rounded animate-bounce"
+              className={`absolute w-3 h-3 rounded animate-bounce ${
+                i % 3 === 0 ? 'bg-cyan-400' : i % 3 === 1 ? 'bg-purple-400' : 'bg-green-400'
+              }`}
               style={{
                 left: `${Math.random() * 100}%`,
                 animationDelay: `${Math.random() * 2}s`,
@@ -108,7 +110,7 @@ const CelebrityMatch = ({ userImage }: CelebrityMatchProps) => {
       <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-6 md:p-8 animate-scale-in">
         {/* Match Score */}
         <div className="text-center mb-8">
-          <div className="inline-block bg-gradient-to-r from-yellow-400 to-orange-400 text-black px-6 py-3 rounded-full font-bold text-2xl mb-4 animate-pulse">
+          <div className="inline-block bg-gradient-to-r from-cyan-400 to-purple-500 text-white px-6 py-3 rounded-full font-bold text-2xl mb-4 animate-pulse shadow-2xl">
             {matchScore}% MATCH!
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">
@@ -139,9 +141,9 @@ const CelebrityMatch = ({ userImage }: CelebrityMatchProps) => {
               <img 
                 src={celebrity.image} 
                 alt={celebrity.name} 
-                className="w-48 h-48 object-cover rounded-2xl mx-auto border-4 border-yellow-400 shadow-2xl"
+                className="w-48 h-48 object-cover rounded-2xl mx-auto border-4 border-cyan-400 shadow-2xl"
               />
-              <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-yellow-400 text-black px-4 py-1 rounded-full font-semibold text-sm">
+              <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-cyan-400 text-black px-4 py-1 rounded-full font-semibold text-sm">
                 {celebrity.name}
               </div>
             </div>
@@ -152,7 +154,7 @@ const CelebrityMatch = ({ userImage }: CelebrityMatchProps) => {
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <Button 
             onClick={downloadResult}
-            className="bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 text-black font-semibold px-8 py-3 rounded-full text-lg"
+            className="bg-gradient-to-r from-cyan-400 to-purple-500 hover:from-cyan-500 hover:to-purple-600 text-white font-semibold px-8 py-3 rounded-full text-lg hover:scale-105 transition-all duration-300 shadow-2xl"
           >
             <Download className="w-5 h-5 mr-2" />
             Download Result
