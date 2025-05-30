@@ -6,7 +6,7 @@ import EnhancedCelebrityMatch from "../components/EnhancedCelebrityMatch";
 import Navigation from "../components/Navigation";
 import RegionFilter from "../components/RegionFilter";
 import { Button } from "@/components/ui/button";
-import { Sparkles, Camera, Share2, Brain, Zap } from "lucide-react";
+import { Brain, Camera, Share2, Zap } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 
 const Index = () => {
@@ -55,37 +55,30 @@ const Index = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen coral-gradient flex items-center justify-center">
-        <div className="animate-spin w-16 h-16 border-4 border-white/30 border-t-coral-500 rounded-full"></div>
+      <div className="min-h-screen purple-gradient flex items-center justify-center">
+        <div className="animate-spin w-16 h-16 border-4 border-white/30 border-t-cyan-400 rounded-full"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen coral-gradient relative overflow-hidden">
+    <div className="min-h-screen purple-gradient relative">
       <Navigation />
       
-      {/* Animated background elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-white/10 rounded-full animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-white/5 rounded-full animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-white/5 rounded-full animate-pulse delay-500"></div>
-        <div className="absolute top-20 left-20 w-32 h-32 bg-coral-400/20 rounded-full animate-bounce"></div>
-        <div className="absolute bottom-20 right-20 w-24 h-24 bg-pink-400/20 rounded-full animate-bounce delay-700"></div>
-      </div>
-
-      <div className="relative z-10 container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8">
         {/* Main Title */}
         <div className="text-center mb-12">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <Brain className="text-coral-300 w-8 h-8 animate-pulse" />
-            <h1 className="text-4xl md:text-6xl font-bold text-white bg-clip-text">
+            <Brain className="text-cyan-300 w-8 h-8" />
+            <h1 className="text-4xl md:text-6xl font-bold text-white">
               CelebTwin AI
             </h1>
-            <Brain className="text-coral-300 w-8 h-8 animate-pulse" />
+            <Brain className="text-cyan-300 w-8 h-8" />
           </div>
-          <p className="text-xl text-white/90 max-w-2xl mx-auto">
-            Discover your celebrity doppelganger using advanced AI face recognition! 
+          <p className="text-xl text-white/90 max-w-2xl mx-auto mb-2">
+            Discover your celebrity doppelganger using advanced AI face recognition!
+          </p>
+          <p className="text-lg text-white/80 max-w-2xl mx-auto">
             Upload your photo and find out which star you look like most.
           </p>
           {!user && (
@@ -103,20 +96,20 @@ const Index = () => {
               
               {/* Features */}
               <div className="grid md:grid-cols-3 gap-6 mt-12">
-                <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 text-center hover:bg-white/100 transition-all duration-300 hover:scale-105 shadow-lg">
-                  <Camera className="w-12 h-12 text-coral-500 mx-auto mb-4" />
-                  <h3 className="text-coral-800 font-semibold mb-2">AI Face Analysis</h3>
-                  <p className="text-coral-600 text-sm">Advanced facial recognition technology analyzes your features instantly</p>
+                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center hover:bg-white/15 transition-all duration-300 border border-white/20">
+                  <Camera className="w-12 h-12 text-cyan-300 mx-auto mb-4" />
+                  <h3 className="text-white font-semibold mb-2">AI Face Analysis</h3>
+                  <p className="text-white/80 text-sm">Advanced facial recognition technology analyzes your features instantly</p>
                 </div>
-                <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 text-center hover:bg-white/100 transition-all duration-300 hover:scale-105 shadow-lg">
-                  <Brain className="w-12 h-12 text-coral-600 mx-auto mb-4" />
-                  <h3 className="text-coral-800 font-semibold mb-2">Smart Matching</h3>
-                  <p className="text-coral-600 text-sm">Our AI compares your face with hundreds of celebrity features</p>
+                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center hover:bg-white/15 transition-all duration-300 border border-white/20">
+                  <Brain className="w-12 h-12 text-purple-300 mx-auto mb-4" />
+                  <h3 className="text-white font-semibold mb-2">Smart Matching</h3>
+                  <p className="text-white/80 text-sm">Our AI compares your face with hundreds of celebrity features</p>
                 </div>
-                <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 text-center hover:bg-white/100 transition-all duration-300 hover:scale-105 shadow-lg">
-                  <Share2 className="w-12 h-12 text-pink-500 mx-auto mb-4" />
-                  <h3 className="text-coral-800 font-semibold mb-2">Share Results</h3>
-                  <p className="text-coral-600 text-sm">Download and share your results with friends on social media</p>
+                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center hover:bg-white/15 transition-all duration-300 border border-white/20">
+                  <Share2 className="w-12 h-12 text-pink-300 mx-auto mb-4" />
+                  <h3 className="text-white font-semibold mb-2">Share Results</h3>
+                  <p className="text-white/80 text-sm">Download and share your results with friends on social media</p>
                 </div>
               </div>
             </div>
@@ -124,13 +117,13 @@ const Index = () => {
 
           {uploadedImage && showRegionFilter && (
             <div className="text-center space-y-6">
-              <div className="bg-white/95 backdrop-blur-sm rounded-3xl p-6 shadow-lg">
+              <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-6 border border-white/20">
                 <img 
                   src={uploadedImage} 
                   alt="Your uploaded photo" 
-                  className="w-32 h-32 object-cover rounded-full mx-auto border-4 border-coral-300 shadow-lg mb-4"
+                  className="w-32 h-32 object-cover rounded-full mx-auto border-4 border-cyan-300 shadow-lg mb-4"
                 />
-                <h3 className="text-coral-800 font-semibold text-lg mb-2">Great photo! Now choose your celebrity region:</h3>
+                <h3 className="text-white font-semibold text-lg mb-2">Great photo! Now choose your celebrity region:</h3>
               </div>
               
               <RegionFilter 
@@ -150,15 +143,15 @@ const Index = () => {
           )}
 
           {error && (
-            <div className="text-center bg-white/95 backdrop-blur-sm rounded-2xl p-6 shadow-lg mb-6">
-              <div className="text-red-600 mb-4">
-                <Zap className="w-12 h-12 mx-auto mb-2" />
-                <h3 className="text-xl font-bold mb-2 text-coral-800">Oops!</h3>
-                <p className="text-coral-600">{error}</p>
+            <div className="text-center bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 mb-6">
+              <div className="text-white mb-4">
+                <Zap className="w-12 h-12 mx-auto mb-2 text-red-300" />
+                <h3 className="text-xl font-bold mb-2">Oops!</h3>
+                <p>{error}</p>
               </div>
               <Button 
                 onClick={resetApp}
-                className="bg-gradient-to-r from-coral-400 to-coral-600 hover:from-coral-500 hover:to-coral-700 text-white border-0"
+                className="bg-cyan-400 hover:bg-cyan-500 text-white border-0 rounded-full px-8"
               >
                 Try Another Photo
               </Button>
@@ -179,7 +172,7 @@ const Index = () => {
               <div className="text-center">
                 <Button 
                   onClick={resetApp}
-                  className="bg-white/20 hover:bg-white/30 text-white border-white/30 border backdrop-blur-sm hover:scale-105 transition-all duration-300"
+                  className="bg-white/20 hover:bg-white/30 text-white border-white/30 border backdrop-blur-sm hover:scale-105 transition-all duration-300 rounded-full px-8"
                 >
                   Try Another Photo
                 </Button>

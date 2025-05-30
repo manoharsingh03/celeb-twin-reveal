@@ -3,13 +3,12 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, Home, Upload, History, User, Settings, Brain, LogIn, Moon, Sun } from "lucide-react";
+import { Menu, Home, Upload, History, User, Settings, Brain, LogIn } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import UserProfile from "./UserProfile";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
   const { user } = useAuth();
   const location = useLocation();
 
@@ -21,19 +20,14 @@ const Navigation = () => {
     { name: "Settings", href: "/settings", icon: Settings },
   ];
 
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-    document.documentElement.classList.toggle('dark');
-  };
-
   const NavItems = ({ mobile = false }) => (
     <>
       {navigationItems.map((item) => (
         <Link
           key={item.name}
           to={item.href}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 hover:bg-white/20 ${
-            location.pathname === item.href ? 'bg-white/30 text-white' : 'text-white/80 hover:text-white'
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 hover:bg-white/10 ${
+            location.pathname === item.href ? 'bg-white/20 text-white' : 'text-white/80 hover:text-white'
           } ${mobile ? 'text-lg' : ''}`}
           onClick={() => mobile && setIsOpen(false)}
         >
@@ -45,40 +39,30 @@ const Navigation = () => {
   );
 
   return (
-    <nav className="sticky top-0 z-50 coral-gradient shadow-lg border-b border-white/20">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
+    <nav className="w-full">
+      <div className="w-full px-6 py-4">
+        <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 text-white font-bold text-xl">
             <Brain className="w-8 h-8 text-white" />
-            <span className="hidden sm:block">CelebTwin AI</span>
+            <span className="hidden sm:block">CelebTwin</span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-2">
+          {/* Desktop Navigation - Hidden for minimal look */}
+          <div className="hidden lg:flex items-center gap-2">
             <NavItems />
           </div>
 
           {/* Right Side Actions */}
           <div className="flex items-center gap-3">
-            {/* Dark Mode Toggle */}
-            <Button
-              onClick={toggleDarkMode}
-              variant="ghost"
-              size="sm"
-              className="text-white/80 hover:text-white hover:bg-white/20"
-            >
-              {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-            </Button>
-
             {/* User Profile or Sign In */}
             {user ? (
               <UserProfile />
             ) : (
               <Link to="/auth">
-                <Button className="bg-white/20 hover:bg-white/30 text-white border-white/30 border backdrop-blur-sm">
+                <Button className="bg-white/20 hover:bg-white/30 text-white border-white/20 border backdrop-blur-sm rounded-full px-6">
                   <LogIn className="w-4 h-4 mr-2" />
-                  <span className="hidden sm:inline">Sign In</span>
+                  <span>Sign In</span>
                 </Button>
               </Link>
             )}
@@ -86,11 +70,11 @@ const Navigation = () => {
             {/* Mobile Menu */}
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="sm" className="md:hidden text-white hover:bg-white/20">
+                <Button variant="ghost" size="sm" className="lg:hidden text-white hover:bg-white/10 rounded-full">
                   <Menu className="w-6 h-6" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="coral-gradient border-l border-white/20">
+              <SheetContent side="right" className="purple-gradient border-l border-white/20">
                 <div className="flex flex-col gap-4 mt-8">
                   <NavItems mobile />
                 </div>

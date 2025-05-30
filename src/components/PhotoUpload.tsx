@@ -47,60 +47,67 @@ const PhotoUpload = ({ onImageUpload }: PhotoUploadProps) => {
     maxSize: 10 * 1024 * 1024 // 10MB
   });
 
+  if (preview) {
+    return (
+      <div className="w-full max-w-lg mx-auto">
+        <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20">
+          <div className="relative mb-4">
+            <img 
+              src={preview} 
+              alt="Preview" 
+              className="w-32 h-32 object-cover rounded-full mx-auto border-4 border-cyan-300 shadow-lg"
+            />
+            <div className="absolute -top-2 -right-2 w-8 h-8 bg-green-400 rounded-full flex items-center justify-center">
+              <Camera className="w-4 h-4 text-white" />
+            </div>
+          </div>
+          <div className="text-center">
+            <h3 className="text-white font-semibold text-lg mb-2">Ready to find your twin!</h3>
+            <p className="text-white/80 text-sm">Click to analyze your facial features</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full max-w-lg mx-auto">
       <div
         {...getRootProps()}
-        className={`relative border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all duration-300 bg-white/10 backdrop-blur-sm ${
+        className={`relative border-2 border-dashed rounded-3xl p-12 text-center cursor-pointer transition-all duration-300 bg-white/10 backdrop-blur-sm ${
           isDragActive 
-            ? 'border-cyan-300 bg-white/20 scale-105' 
+            ? 'border-cyan-300 bg-white/15 scale-105' 
             : 'border-white/30 hover:border-cyan-400 hover:bg-white/15'
         }`}
       >
         <input {...getInputProps()} />
         
-        {preview ? (
-          <div className="space-y-4">
-            <img 
-              src={preview} 
-              alt="Preview" 
-              className="w-32 h-32 object-cover rounded-full mx-auto border-4 border-cyan-300 shadow-2xl"
-            />
-            <p className="text-white font-medium">Perfect! Your photo is ready for analysis</p>
-            <div className="text-xs text-white/60">
-              Make sure your face is clearly visible for best results
+        <div className="space-y-6">
+          <div className="relative">
+            <div className="w-20 h-20 mx-auto bg-white/20 rounded-full flex items-center justify-center mb-4">
+              <Upload className="w-10 h-10 text-white" />
             </div>
           </div>
-        ) : (
-          <div className="space-y-4">
-            <div className="relative">
-              <Upload className="w-16 h-16 text-white/70 mx-auto" />
-              <div className="absolute -top-2 -right-2 w-6 h-6 bg-cyan-400 rounded-full flex items-center justify-center">
-                <Camera className="w-3 h-3 text-black" />
-              </div>
-            </div>
-            
-            <div>
-              <h3 className="text-xl font-semibold text-white mb-2">
-                {isDragActive ? "Drop your photo here!" : "Upload your photo"}
-              </h3>
-              <p className="text-white/70 text-sm mb-4">
-                Drag & drop or click to select • JPG, PNG, WEBP • Max 10MB
-              </p>
-            </div>
+          
+          <div>
+            <h3 className="text-2xl font-semibold text-white mb-3">
+              Upload your photo
+            </h3>
+            <p className="text-white/80 text-base mb-6">
+              Drag & drop or click to select • JPG, PNG, WEBP • Max 10MB
+            </p>
+          </div>
 
-            <div className="flex gap-2 justify-center">
-              <Button 
-                variant="secondary" 
-                size="sm"
-                className="bg-white/20 hover:bg-white/30 text-white border-none hover:scale-105 transition-all duration-300"
-              >
-                <ImageIcon className="w-4 h-4 mr-2" />
-                Choose File
-              </Button>
-            </div>
+          <div>
+            <Button 
+              size="lg"
+              className="bg-cyan-400 hover:bg-cyan-500 text-white border-0 rounded-full px-8 py-3 text-lg font-semibold"
+            >
+              <ImageIcon className="w-5 h-5 mr-2" />
+              Choose File
+            </Button>
           </div>
-        )}
+        </div>
       </div>
 
       {error && (
@@ -112,11 +119,11 @@ const PhotoUpload = ({ onImageUpload }: PhotoUploadProps) => {
         </div>
       )}
 
-      <div className="mt-4 text-center">
-        <p className="text-white/60 text-xs">
+      <div className="mt-6 text-center">
+        <p className="text-white/70 text-sm mb-2">
           Your photo is processed locally using AI and never stored on our servers
         </p>
-        <p className="text-white/50 text-xs mt-1">
+        <p className="text-white/60 text-xs">
           For best results, use a clear front-facing photo with good lighting
         </p>
       </div>

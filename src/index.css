@@ -43,18 +43,6 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
-
-    /* Coral Theme Colors */
-    --coral-50: 254 242 242;
-    --coral-100: 254 226 226;
-    --coral-200: 252 165 165;
-    --coral-300: 248 113 113;
-    --coral-400: 239 68 68;
-    --coral-500: 220 38 38;
-    --coral-600: 185 28 28;
-    --coral-700: 153 27 27;
-    --coral-800: 127 29 29;
-    --coral-900: 69 10 10;
   }
 
   .dark {
@@ -98,22 +86,13 @@
   }
 }
 
-/* Coral Theme Gradient */
-.coral-gradient {
-  background: linear-gradient(135deg, #ff7875, #ff595e, #ff8a80);
+/* Purple Gradient Theme */
+.purple-gradient {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
-.coral-gradient-reverse {
-  background: linear-gradient(315deg, #ff7875, #ff595e, #ff8a80);
-}
-
-/* Updated Peach + Purple Gradient to match coral theme */
-.peach-purple-gradient {
-  background: linear-gradient(135deg, #ff7875, #ff595e);
-}
-
-.peach-purple-gradient-reverse {
-  background: linear-gradient(315deg, #ff7875, #ff595e);
+.purple-gradient-light {
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
 }
 
 /* Animated progress bar */
@@ -148,4 +127,14 @@
 
 .confetti {
   animation: confetti-fall 3s linear forwards;
+}
+
+/* Loading animation */
+@keyframes loadingProgress {
+  0% { width: 0%; }
+  100% { width: 100%; }
+}
+
+.loading-bar {
+  animation: loadingProgress 3s ease-in-out forwards;
 }

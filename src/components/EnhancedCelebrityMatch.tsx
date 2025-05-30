@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Download, Share2, Sparkles, Info } from "lucide-react";
@@ -83,10 +82,10 @@ const EnhancedCelebrityMatch = ({ userImage, celebrity, matchScore }: EnhancedCe
     canvas.width = 800;
     canvas.height = 1000;
     
-    // Create peach to purple gradient background
+    // Create purple gradient background
     const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-    gradient.addColorStop(0, '#ff6f61');
-    gradient.addColorStop(1, '#6a0dad');
+    gradient.addColorStop(0, '#667eea');
+    gradient.addColorStop(1, '#764ba2');
     
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -240,108 +239,92 @@ const EnhancedCelebrityMatch = ({ userImage, celebrity, matchScore }: EnhancedCe
   };
 
   return (
-    <div className="relative">
+    <div className="relative max-w-2xl mx-auto">
       <ConfettiEffect show={showConfetti} />
 
-      <div className="bg-white/95 backdrop-blur-sm rounded-3xl p-6 md:p-8 shadow-2xl border-0">
-        {/* Match Score */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-400 to-purple-600 text-white px-6 py-3 rounded-full font-bold text-2xl mb-4 shadow-2xl">
-            <Sparkles className="w-6 h-6" />
-            {matchScore}% MATCH! {getMatchEmoji(matchScore)}
-            <Sparkles className="w-6 h-6" />
-          </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-purple-800 mb-2">
-            You look like {celebrity.name}!
-          </h2>
-          <p className="text-purple-600 text-lg max-w-md mx-auto mb-4">
-            {getMatchMessage(matchScore)}
-          </p>
-          
-          {/* Animated Progress Bar */}
-          <AnimatedProgress value={matchScore} label="AI Match Confidence" />
+      {/* Match Score Badge */}
+      <div className="text-center mb-8">
+        <div className="inline-flex items-center gap-2 bg-cyan-400 text-white px-8 py-4 rounded-full font-bold text-3xl mb-6 shadow-2xl">
+          <Sparkles className="w-8 h-8" />
+          {matchScore}% MATCH!
+          <Sparkles className="w-8 h-8" />
         </div>
+        
+        <h2 className="text-4xl font-bold text-white mb-4">
+          You look like {celebrity.name}!
+        </h2>
+        <p className="text-white/80 text-lg mb-6">
+          {celebrity.description}
+        </p>
+      </div>
 
-        {/* Images Comparison */}
-        <div className="grid md:grid-cols-2 gap-6 mb-8">
-          <div className="text-center">
-            <div className="relative">
-              <img 
-                src={userImage} 
-                alt="Your photo" 
-                className="w-48 h-48 object-cover rounded-2xl mx-auto border-4 border-purple-200 shadow-2xl"
-              />
-              <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-white text-purple-800 px-4 py-1 rounded-full font-semibold text-sm shadow-lg">
-                You
-              </div>
-            </div>
-          </div>
-          
-          <div className="text-center">
-            <div className="relative">
-              <img 
-                src={celebrity.image} 
-                alt={celebrity.name} 
-                className="w-48 h-48 object-cover rounded-2xl mx-auto border-4 border-orange-400 shadow-2xl"
-              />
-              <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-orange-400 to-purple-600 text-white px-4 py-1 rounded-full font-semibold text-sm shadow-lg">
-                {celebrity.name}
-              </div>
+      {/* Images Comparison */}
+      <div className="grid grid-cols-2 gap-8 mb-8">
+        <div className="text-center">
+          <div className="relative">
+            <img 
+              src={userImage} 
+              alt="Your photo" 
+              className="w-40 h-40 object-cover rounded-2xl mx-auto border-4 border-white/30 shadow-xl"
+            />
+            <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 bg-white/90 text-purple-800 px-4 py-2 rounded-full font-semibold text-sm shadow-lg">
+              You
             </div>
           </div>
         </div>
+        
+        <div className="text-center">
+          <div className="relative">
+            <img 
+              src={celebrity.image} 
+              alt={celebrity.name} 
+              className="w-40 h-40 object-cover rounded-2xl mx-auto border-4 border-cyan-300 shadow-xl"
+            />
+            <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 bg-cyan-400 text-white px-4 py-2 rounded-full font-semibold text-sm shadow-lg">
+              {celebrity.name}
+            </div>
+          </div>
+        </div>
+      </div>
 
-        {/* AI Analysis Section */}
-        <div className="text-center mb-6">
+      {/* Analysis Section */}
+      <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 mb-8">
+        <div className="flex items-center justify-center mb-4">
           <Button
             onClick={() => setShowAnalysis(!showAnalysis)}
-            variant="outline"
-            className="border-purple-200 text-purple-700 hover:bg-purple-50"
+            variant="ghost"
+            className="text-white hover:bg-white/10"
           >
             <Info className="w-4 h-4 mr-2" />
             {showAnalysis ? 'Hide' : 'Show'} AI Analysis
           </Button>
-          
-          {showAnalysis && (
-            <div className="mt-4 bg-purple-50 rounded-2xl p-4 text-left">
-              <h4 className="font-semibold text-purple-800 mb-2">Why you matched with {celebrity.name}:</h4>
-              <ul className="text-sm text-purple-600 space-y-1">
-                <li>• Facial structure similarity: {Math.floor(Math.random() * 20 + 75)}%</li>
-                <li>• Eye shape and position: {Math.floor(Math.random() * 25 + 70)}%</li>
-                <li>• Jawline definition: {Math.floor(Math.random() * 30 + 65)}%</li>
-                <li>• Overall facial geometry: {Math.floor(Math.random() * 15 + 80)}%</li>
-              </ul>
-              <p className="text-xs text-purple-500 mt-2">
-                🤖 Analyzed {Math.floor(Math.random() * 50) + 128} facial landmarks
-              </p>
-            </div>
-          )}
         </div>
+        
+        {showAnalysis && (
+          <div className="space-y-4">
+            <p className="text-white/90 text-sm text-center">
+              🤖 Our AI analyzed 137 facial features to find your perfect celebrity match!
+            </p>
+          </div>
+        )}
+      </div>
 
-        {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <Button 
-            onClick={downloadResult}
-            disabled={isGeneratingImage}
-            className="bg-gradient-to-r from-orange-400 to-purple-600 hover:from-orange-500 hover:to-purple-700 text-white font-semibold px-8 py-3 rounded-full text-lg hover:scale-105 transition-all duration-300 shadow-2xl disabled:opacity-50"
-          >
-            <Download className="w-5 h-5 mr-2" />
-            {isGeneratingImage ? 'Generating...' : 'Download Result'}
-          </Button>
-          
-          <SocialShare 
-            celebrity={celebrity.name}
-            matchScore={matchScore}
-            generatedImageUrl={generatedImageUrl}
-          />
-        </div>
-
-        {/* Technical Details */}
-        <div className="mt-8 text-center bg-purple-50 rounded-2xl p-4">
-          <p className="text-purple-700 text-sm">
-            🤖 AI analyzed facial landmarks, proportions, and geometric features using advanced neural networks
-          </p>
-        </div>
+      {/* Action Buttons */}
+      <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <Button 
+          onClick={downloadResult}
+          disabled={isGeneratingImage}
+          className="bg-cyan-400 hover:bg-cyan-500 text-white font-semibold px-8 py-3 rounded-full text-lg transition-all duration-300 shadow-xl disabled:opacity-50"
+        >
+          <Download className="w-5 h-5 mr-2" />
+          Download Result
+        </Button>
+        
+        <SocialShare 
+          celebrity={celebrity.name}
+          matchScore={matchScore}
+          generatedImageUrl={generatedImageUrl}
+        />
       </div>
     </div>
   );
