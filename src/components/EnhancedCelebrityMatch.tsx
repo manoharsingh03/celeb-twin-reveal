@@ -22,6 +22,7 @@ interface EnhancedCelebrityMatchProps {
 const EnhancedCelebrityMatch = ({ userImage, celebrity, matchScore }: EnhancedCelebrityMatchProps) => {
   const [showConfetti, setShowConfetti] = useState(false);
   const [isGeneratingImage, setIsGeneratingImage] = useState(false);
+  const [generatedImageUrl, setGeneratedImageUrl] = useState<string | null>(null);
   const { toast } = useToast();
   const { user } = useAuth();
 
@@ -97,13 +98,13 @@ const EnhancedCelebrityMatch = ({ userImage, celebrity, matchScore }: EnhancedCe
       // Draw user image (left side)
       const imgSize = 200;
       const userX = canvas.width / 4 - imgSize / 2;
-      const imgY = 300;
+      const imageY = 300; // Fixed variable name
       
       ctx.save();
       ctx.beginPath();
-      ctx.arc(userX + imgSize / 2, imgY + imgSize / 2, imgSize / 2, 0, Math.PI * 2);
+      ctx.arc(userX + imgSize / 2, imageY + imgSize / 2, imgSize / 2, 0, Math.PI * 2);
       ctx.clip();
-      ctx.drawImage(userImg, userX, imgY, imgSize, imgSize);
+      ctx.drawImage(userImg, userX, imageY, imgSize, imgSize);
       ctx.restore();
       
       // Draw celebrity image (right side)
@@ -111,21 +112,28 @@ const EnhancedCelebrityMatch = ({ userImage, celebrity, matchScore }: EnhancedCe
       
       ctx.save();
       ctx.beginPath();
-      ctx.arc(celebX + imgSize / 2, imgY + imgSize / 2, imgSize / 2, 0, Math.PI * 2);
+      ctx.arc(celebX + imgSize / 2, imageY + imgSize / 2, imgSize / 2, 0, Math.PI * 2);
       ctx.clip();
-      ctx.drawImage(celebImg, celebX, imgY, imgSize, imgSize);
+      ctx.drawImage(celebImg, celebX, imageY, imgSize, imgSize);
       ctx.restore();
       
       // Draw borders around images
       ctx.strokeStyle = '#ffffff';
       ctx.lineWidth = 6;
       ctx.beginPath();
-      ctx.arc(userX + imgSize / 2, imgY + imgSize / 2, imgSize / 2, 0, Math.PI * 2);
+      ctx.arc(userX + imgSize / 2, imageY + imgSize / 2, imgSize / 2, 0, Math.PI * 2);
       ctx.stroke();
       
       ctx.beginPath();
-      ctx.arc(celebX + imgSize / 2, imgY + imgSize / 2, imgSize / 2, 0, Math.PI * 2);
+      ctx.arc(celebX + imgSize / 2, imageY + imgSize / 2, imgSize / 2, 0, Math.PI * 2);
       ctx.stroke();
+      
+      // Add labels
+      ctx.font = '24px Arial';
+      ctx.fillStyle = 'white';
+      ctx.textAlign = 'center';
+      ctx.fillText('You', userX + imgSize / 2, imageY + imgSize + 30);
+      ctx.fillText(celebrity.name, celebX + imgSize / 2, imageY + imgSize + 30);
       
     } catch (error) {
       console.warn('Could not load images for canvas, proceeding without them');
@@ -147,11 +155,6 @@ const EnhancedCelebrityMatch = ({ userImage, celebrity, matchScore }: EnhancedCe
     // Add celebrity name
     ctx.font = 'bold 36px Arial';
     ctx.fillText(`You look like ${celebrity.name}!`, canvas.width / 2, 260);
-    
-    // Add labels
-    ctx.font = '24px Arial';
-    ctx.fillText('You', canvas.width / 4, imgY + 240);
-    ctx.fillText(celebrity.name, (canvas.width * 3) / 4, imgY + 240);
     
     // Add progress bar for match percentage
     const barWidth = 400;
@@ -192,6 +195,7 @@ const EnhancedCelebrityMatch = ({ userImage, celebrity, matchScore }: EnhancedCe
     
     try {
       const imageDataUrl = await generateResultImage();
+      setGeneratedImageUrl(imageDataUrl);
       
       // Create download link
       const link = document.createElement('a');
@@ -303,6 +307,7 @@ const EnhancedCelebrityMatch = ({ userImage, celebrity, matchScore }: EnhancedCe
           <SocialShare 
             celebrity={celebrity.name}
             matchScore={matchScore}
+            generatedImageUrl={generatedImageUrl}
           />
         </div>
 
