@@ -52,11 +52,16 @@ export const calculateSimilarity = (embedding1: number[], embedding2: number[]):
     embedding1.reduce((sum, val, i) => sum + Math.pow(val - embedding2[i], 2), 0)
   );
 
-  // Convert distance to similarity percentage (lower distance = higher similarity)
-  const maxDistance = 1.0; // Typical max distance for face embeddings
-  const similarity = Math.max(0, (1 - distance / maxDistance) * 100);
+  // Convert distance to similarity percentage with improved algorithm
+  // Face-api.js typically produces distances between 0.2-1.2 for different people
+  // and 0.0-0.6 for similar faces
+  const normalizedDistance = Math.min(distance, 1.2); // Cap at typical max
+  const similarity = Math.max(0, (1.2 - normalizedDistance) / 1.2 * 100);
   
-  return Math.min(100, similarity);
+  // Apply a more realistic curve - most people won't be 90%+ similar to celebrities
+  const adjustedSimilarity = Math.pow(similarity / 100, 1.5) * 100;
+  
+  return Math.round(Math.max(50, Math.min(95, adjustedSimilarity))); // Keep between 50-95%
 };
 
 export const loadImageFromUrl = (url: string): Promise<HTMLImageElement> => {

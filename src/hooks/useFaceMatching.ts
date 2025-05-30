@@ -25,10 +25,10 @@ export const useFaceMatching = () => {
     setError(null);
 
     try {
-      // Initialize face-api.js
+      console.log('Initializing face-api.js...');
       await initializeFaceApi();
 
-      // Precompute celebrity embeddings
+      console.log('Computing celebrity embeddings...');
       await computeCelebrityEmbeddings();
 
       setIsReady(true);
@@ -46,22 +46,23 @@ export const useFaceMatching = () => {
 
     for (const celebrity of celebrities) {
       try {
+        console.log(`Processing ${celebrity.name}...`);
         const img = await loadImageFromUrl(celebrity.imageUrl);
         const embedding = await getFaceEmbedding(img);
         
         if (embedding) {
           embeddings.set(celebrity.name, embedding);
-          console.log(`Computed embedding for ${celebrity.name}`);
+          console.log(`✓ Computed embedding for ${celebrity.name} (${embedding.length} features)`);
         } else {
-          console.warn(`Could not detect face for ${celebrity.name}`);
+          console.warn(`⚠ Could not detect face for ${celebrity.name}`);
         }
       } catch (error) {
-        console.warn(`Failed to process ${celebrity.name}:`, error);
+        console.warn(`✗ Failed to process ${celebrity.name}:`, error);
       }
     }
 
     setCelebrityEmbeddings(embeddings);
-    console.log(`Computed embeddings for ${embeddings.size} celebrities`);
+    console.log(`🎯 Successfully computed embeddings for ${embeddings.size}/${celebrities.length} celebrities`);
   };
 
   const findCelebrityMatch = async (userImageUrl: string): Promise<MatchResult | null> => {
@@ -70,20 +71,26 @@ export const useFaceMatching = () => {
     }
 
     try {
-      // Load user image and get embedding
+      console.log('Loading user image...');
       const userImg = await loadImageFromUrl(userImageUrl);
+      
+      console.log('Extracting face features...');
       const userEmbedding = await getFaceEmbedding(userImg);
 
       if (!userEmbedding) {
-        throw new Error('Could not detect face in uploaded image');
+        throw new Error('Could not detect face in uploaded image. Please try a clearer photo with your face clearly visible.');
       }
 
-      // Find best match
+      console.log(`✓ User face embedding extracted (${userEmbedding.length} features)`);
+
+      // Find best match using real similarity calculations
       let bestMatch: MatchResult | null = null;
       let highestScore = 0;
 
+      console.log('Comparing with celebrities...');
       for (const [celebName, celebEmbedding] of celebrityEmbeddings) {
         const similarity = calculateSimilarity(userEmbedding, celebEmbedding);
+        console.log(`${celebName}: ${similarity}% similarity`);
         
         if (similarity > highestScore) {
           highestScore = similarity;
@@ -91,15 +98,14 @@ export const useFaceMatching = () => {
           if (celebrity) {
             bestMatch = {
               celebrity,
-              matchScore: Math.round(similarity)
+              matchScore: similarity
             };
           }
         }
       }
 
-      // Ensure minimum score for better UX
-      if (bestMatch && bestMatch.matchScore < 60) {
-        bestMatch.matchScore = Math.max(60, bestMatch.matchScore + Math.random() * 15);
+      if (bestMatch) {
+        console.log(`🎯 Best match: ${bestMatch.celebrity.name} with ${bestMatch.matchScore}% similarity`);
       }
 
       return bestMatch;
