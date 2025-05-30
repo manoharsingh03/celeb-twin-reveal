@@ -43,6 +43,18 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Coral Theme Colors */
+    --coral-50: 254 242 242;
+    --coral-100: 254 226 226;
+    --coral-200: 252 165 165;
+    --coral-300: 248 113 113;
+    --coral-400: 239 68 68;
+    --coral-500: 220 38 38;
+    --coral-600: 185 28 28;
+    --coral-700: 153 27 27;
+    --coral-800: 127 29 29;
+    --coral-900: 69 10 10;
   }
 
   .dark {
@@ -86,13 +98,22 @@
   }
 }
 
-/* Custom Peach + Purple Gradient */
+/* Coral Theme Gradient */
+.coral-gradient {
+  background: linear-gradient(135deg, #ff7875, #ff595e, #ff8a80);
+}
+
+.coral-gradient-reverse {
+  background: linear-gradient(315deg, #ff7875, #ff595e, #ff8a80);
+}
+
+/* Updated Peach + Purple Gradient to match coral theme */
 .peach-purple-gradient {
-  background: linear-gradient(135deg, #ff6f61, #6a0dad);
+  background: linear-gradient(135deg, #ff7875, #ff595e);
 }
 
 .peach-purple-gradient-reverse {
-  background: linear-gradient(315deg, #ff6f61, #6a0dad);
+  background: linear-gradient(315deg, #ff7875, #ff595e);
 }
 
 /* Animated progress bar */

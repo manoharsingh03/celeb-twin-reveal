@@ -45,12 +45,12 @@ const Navigation = () => {
   );
 
   return (
-    <nav className="sticky top-0 z-50 peach-purple-gradient shadow-lg border-b border-white/20">
+    <nav className="sticky top-0 z-50 coral-gradient shadow-lg border-b border-white/20">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 text-white font-bold text-xl">
-            <Brain className="w-8 h-8 text-yellow-300" />
+            <Brain className="w-8 h-8 text-white" />
             <span className="hidden sm:block">CelebTwin AI</span>
           </Link>
 
@@ -90,7 +90,7 @@ const Navigation = () => {
                   <Menu className="w-6 h-6" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="peach-purple-gradient border-l border-white/20">
+              <SheetContent side="right" className="coral-gradient border-l border-white/20">
                 <div className="flex flex-col gap-4 mt-8">
                   <NavItems mobile />
                 </div>
